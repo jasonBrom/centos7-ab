@@ -22,6 +22,7 @@ yum -y install httpd-tools
 sleep 1s
 clear
 echo "开始魔改AB"
+ulimit -n 35768
 echo "net.ipv4.tcp_syncookies = 0" >> /etc/sysctl.conf
 sysctl -p
 echo "魔改完成"
