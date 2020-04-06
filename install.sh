@@ -26,3 +26,40 @@ ulimit -n 35768
 echo "net.ipv4.tcp_syncookies = 0" >> /etc/sysctl.conf
 sysctl -p
 echo "魔改完成"
+clear
+sleep 1s
+echo "开始安装HTTP环境"
+sleep 1s
+yum install pip -y
+pip3 install -r requirements.txt
+yum install git -y
+yum install python3 -y
+yum install htop -y
+yum -y update
+yum install gcc libcap libpcap libpcap-devel screen php dstat cmake gmp gmp-devel gengetopt byacc flex git json-c zmap iptraf nano -y
+yum groupinstall "Development Tools" -y
+yum install gcc php-devel php-pear libssh2 libssh2-devel -y
+clear
+echo "安装时如果出现输入框回车即可"
+sleep 3s
+pecl install -f ssh2
+clear
+echo "---------------------------"
+sleep 1s
+touch /etc/php.d/ssh2.ini
+echo -e“\n”
+echo extension=ssh2.so > /etc/php.d/ssh2.ini
+Service httpd restart
+chkconfig httpd on
+chkconfig --list | grep httpd
+chkconfig -add httpd
+chkconfig httpd on
+systemctl start httpd.service
+systemctl enable httpd.service
+iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 80 -j ACCEPT
+service iptables save
+service iptables restart
+firewall-cmd --zone=public --add-port=80/tcp --permanent
+firewall-cmd --reload
+pip3 install -r requirements.txt
+
