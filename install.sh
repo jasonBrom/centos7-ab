@@ -62,4 +62,13 @@ service iptables restart
 firewall-cmd --zone=public --add-port=80/tcp --permanent
 firewall-cmd --reload
 pip3 install -r requirements.txt
+clear
+echo "开始下载脚本"
+wget https://raw.githubusercontent.com/jasonBrom/centos7-ab/master/api.php
+mv api.php /var/www/html
+cd /var/www/html
 
+clear
+echo "--------------------------------------------"
+echo "安装完成请修改 vi /var/www/html/api.php设置服务器IP密码"
+echo "--------------------------------------------"
